@@ -28,7 +28,10 @@ const Task = () => {
     const {totalPrice} = useSelector(state=> state.taskReducer)
 
     const checkValidity = () => {
-        if((title == "" || note =="" || price =="")){
+        // var reg =  /^\d+\.\d+$/
+        var regExp = new RegExp("^\\d+$");
+        // var reg = new RegExp('^[0-9]+$');
+        if((title == "" || note =="" || price =="" || !regExp.test(price)) ){
             return false;
         }else{
             return true
@@ -44,7 +47,7 @@ const Task = () => {
         setPrice("")
         }
         else{
-            alert('Input Cannot b Empty')
+            alert('Input Cannot b Empty and Price cannoty be string')
         }
     }
 
@@ -54,7 +57,7 @@ const Task = () => {
         <SafeAreaView style={styles.container}>
             <View style={styles.subContainer}>
                 <Text style={styles.title}>MY EXPENSES</Text>
-                <Text style={styles.subTitle}>Total<Text style={styles.line}>           |</Text><Text style={[styles.price, { fontSize: 30 }]}>        {totalPrice}</Text></Text>
+                <Text style={styles.subTitle}>Total<Text style={styles.line}>           |</Text><Text style={[styles.price, { fontSize: 30 }]}>      {totalPrice}</Text></Text>
                 <Text>___________________________________________________________</Text>
                 <View>
                     <Input style={styles.titleTextInput}
@@ -67,7 +70,7 @@ const Task = () => {
                     <Input style={styles.titleTextInput}
                         ref={inputRef}
                         placeholderTextColor="black"
-                        placeholder="Amount"
+                        placeholder="Amount (Numbers ONLY)"
                         value={price}
                         onChangeText={(prce) => setPrice(prce)}
                     />
@@ -122,6 +125,7 @@ const Task = () => {
                             price={item.price}
                             note={item.note}
                             date={item.date}
+                            id={item.id }
                         />
                     }}
                 />
